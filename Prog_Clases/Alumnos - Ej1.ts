@@ -1,108 +1,114 @@
-// Clase Alumno
+// Clase Alumno que representa a un estudiante
 class Alumno {
-    constructor(nombre, nota) {
+    private nombre: string;
+    private nota: number;
+
+    constructor(nombre: string, nota: number) {
         this.nombre = nombre;
-        let _nota = nota; // Encapsulamiento de la nota
+        this.nota = nota;
+    }
 
-        // Método para obtener la nota
-        this.getNota = function() {
-            return _nota;
-        };
+    // Método para obtener el nombre del alumno
+    public getNombre(): string {
+        return this.nombre;
+    }
 
-        // Método para establecer una nueva nota
-        this.setNota = function(nuevaNota) {
-            _nota = nuevaNota;
-        };
+    // Método para obtener la nota del alumno
+    public getNota(): number {
+        return this.nota;
+    }
 
-        // Método para verificar si el alumno está aprobado
-        this.estaAprobado = function() {
-            return _nota > 7;
-        };
+    // Método para verificar si el alumno está aprobado
+    public estaAprobado(): boolean {
+        return this.nota > 7;
     }
 }
 
-// Clase Profesor
+// Clase Profesor que representa a un profesor
 class Profesor {
-    constructor(nombre) {
+    private nombre: string;
+    private alumnos: Alumno[];
+
+    constructor(nombre: string) {
         this.nombre = nombre;
-        this.alumnos = []; // Lista de alumnos
+        this.alumnos = [];
     }
 
-    // Método para agregar un alumno a la lista
-    agregarAlumno(alumno) {
+    // Método para agregar un alumno al listado del profesor
+    public agregarAlumno(alumno: Alumno): void {
         this.alumnos.push(alumno);
     }
 
-    // Método para eliminar un alumno de la lista por nombre
-    eliminarAlumno(nombreAlumno) {
-        this.alumnos = this.alumnos.filter(alumno => alumno.nombre !== nombreAlumno);
+    // Método para obtener el listado de alumnos del profesor
+    public getAlumnos(): Alumno[] {
+        return this.alumnos;
     }
 
-    // Método para listar los nombres de los alumnos
-    listarAlumnos() {
-        return this.alumnos.map(alumno => alumno.nombre);
+    // Método para obtener el nombre del profesor
+    public getNombre(): string {
+        return this.nombre;
     }
 }
 
-// Clase Escuela
+// Clase Escuela que representa a la institución educativa
 class Escuela {
-    constructor(nombre) {
-        this.nombre = nombre;
+    private alumnos: Alumno[];
+    private profesores: Profesor[];
+
+    constructor() {
         this.alumnos = [];
         this.profesores = [];
     }
 
     // Método para matricular un alumno en la escuela
-    matricularAlumno(alumno) {
+    public matricularAlumno(alumno: Alumno): void {
         this.alumnos.push(alumno);
     }
 
     // Método para contratar un profesor en la escuela
-    contratarProfesor(profesor) {
+    public contratarProfesor(profesor: Profesor): void {
         this.profesores.push(profesor);
     }
 
-    // Método para expulsar un alumno de la escuela por nombre
-    expulsarAlumno(nombreAlumno) {
-        this.alumnos = this.alumnos.filter(alumno => alumno.nombre !== nombreAlumno);
+    // Método para expulsar un alumno de la escuela
+    public expulsarAlumno(nombre: string): void {
+        this.alumnos = this.alumnos.filter(alumno => alumno.getNombre() !== nombre);
     }
 
-    // Método para despedir un profesor de la escuela por nombre
-    despedirProfesor(nombreProfesor) {
-        this.profesores = this.profesores.filter(profesor => profesor.nombre !== nombreProfesor);
+    // Método para despedir un profesor de la escuela
+    public despedirProfesor(nombre: string): void {
+        this.profesores = this.profesores.filter(profesor => profesor.getNombre() !== nombre);
     }
 
-    // Método para listar los nombres de los alumnos
-    listarAlumnos() {
-        return this.alumnos.map(alumno => alumno.nombre);
+    // Método para obtener el listado de alumnos de la escuela
+    public getAlumnos(): Alumno[] {
+        return this.alumnos;
     }
 
-    // Método para listar los nombres de los profesores
-    listarProfesores() {
-        return this.profesores.map(profesor => profesor.nombre);
+    // Método para obtener el listado de profesores de la escuela
+    public getProfesores(): Profesor[] {
+        return this.profesores;
     }
 }
 
-// Ejemplo de uso
-// const escuela = new Escuela('Escuela Primaria');
-// const profesor1 = new Profesor('Sr. Pérez');
-// const alumno1 = new Alumno('Juan', 8);
-// const alumno2 = new Alumno('María', 6);
+// Ejemplo de uso del sistema educativo
+const escuela = new Escuela();
+const profesor1 = new Profesor("Profesor A");
+const alumno1 = new Alumno("Alumno 1", 8);
+const alumno2 = new Alumno("Alumno 2", 6);
 
-// Contratar un profesor y matricular alumnos en la escuela
-// escuela.contratarProfesor(profesor1);
-// escuela.matricularAlumno(alumno1);
-// escuela.matricularAlumno(alumno2);
+// Matricular alumnos en la escuela
+escuela.matricularAlumno(alumno1);
+escuela.matricularAlumno(alumno2);
+
+// Contratar profesor en la escuela
+escuela.contratarProfesor(profesor1);
 
 // Asignar alumnos al profesor
-// profesor1.agregarAlumno(alumno1);
-// profesor1.agregarAlumno(alumno2);
+profesor1.agregarAlumno(alumno1);
+profesor1.agregarAlumno(alumno2);
 
-// Listar alumnos del profesor y verificar si están aprobados
-// console.log(profesor1.listarAlumnos()); // ['Juan', 'María']
-// console.log(alumno1.estaAprobado()); // true
-// console.log(alumno2.estaAprobado()); // false
-
-// Expulsar un alumno de la escuela y listar los alumnos restantes
-// escuela.expulsarAlumno('María');
-// console.log(escuela.listarAlumnos()); // ['Juan']
+// Mostrar si los alumnos están aprobados
+profesor1.getAlumnos().forEach(alumno => {
+    console.log(`${alumno.getNombre()} está aprobado: ${alumno.estaAprobado()}`);
+});
